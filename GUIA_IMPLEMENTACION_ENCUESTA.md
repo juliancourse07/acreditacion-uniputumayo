@@ -5,6 +5,7 @@
 1. Utilice la pestaña **Programas Académicos** como banco de preguntas oficial.
 2. Mantenga las columnas `ESTADO_ACTUALIZACION` y `JUSTIFICACION_CAMBIO` para trazabilidad normativa.
 3. Aplique la encuesta por actor según la columna `ACTOR`.
+4. Respete la escala recomendada indicada en cada pregunta para conservar comparabilidad.
 
 ## 2. Públicos objetivo por factor (referencia)
 
@@ -21,14 +22,17 @@
 - **Factor 11**: Directivos y administrativos.
 - **Factor 12**: Directivos.
 
-## 3. Escala recomendada
+## 3. Escalas recomendadas (uso variado)
 
-Se recomienda escala Likert de 5 puntos:
-1. Muy bajo / Muy en desacuerdo
-2. Bajo / En desacuerdo
-3. Medio / Ni de acuerdo ni en desacuerdo
-4. Alto / De acuerdo
-5. Muy alto / Muy de acuerdo
+Para mejorar la precisión del instrumento, use de forma combinada estas escalas:
+
+1. **Frecuencia**: Siempre / Frecuentemente / A veces / Rara vez / Nunca.
+2. **Acuerdo**: Totalmente de acuerdo / De acuerdo / Neutral / En desacuerdo / Totalmente en desacuerdo.
+3. **Satisfacción**: Muy satisfecho(a) / Satisfecho(a) / Neutro(a) / Insatisfecho(a) / Muy insatisfecho(a).
+4. **Efectividad**: Muy efectivo(a) / Efectivo(a) / Moderadamente efectivo(a) / Poco efectivo(a) / Nada efectivo(a).
+5. **Conocimiento**: Conozco completamente / Conozco bien / Conozco parcialmente / Conozco poco / No conozco.
+6. **Impacto**: Alto impacto / Impacto moderado / Bajo impacto / Sin impacto observable.
+7. **Dicotómica**: Sí / No / No sé.
 
 ## 4. Proceso sugerido de recolección
 
