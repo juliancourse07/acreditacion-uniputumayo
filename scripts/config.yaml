@@ -9,4 +9,4 @@ graficos:
 
 output:
   carpeta: "informes_generados"
-  nombre_archivo: "INFORME_POSGRADOS_{fecha}.docx"
+  nombre_archivo: "INFORME_POSGRADOS_2026.docx"
