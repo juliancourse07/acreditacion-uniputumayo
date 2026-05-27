@@ -417,6 +417,24 @@ def _add_table(doc: Document, headers: list[str], rows: list[list[str]]) -> None
             celdas[i].text = limpiar_texto(val)
 
 
+def _add_section_heading(doc: Document, texto: str) -> None:
+    """Agrega un encabezado de sección usando párrafo en negrita (compatible con todas las plantillas)."""
+    from docx.shared import Pt
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    run = p.add_run(texto)
+    run.bold = True
+    run.font.size = Pt(13)
+
+
+def _add_numbered_paragraph(doc: Document, numero: int, texto: str) -> None:
+    """Agrega un párrafo numerado manualmente."""
+    p = doc.add_paragraph()
+    p.add_run(f"{numero}. {texto}")
+
+
 def rellenar_word(plantilla_path: str, datos: dict[str, Any], output_path: str) -> None:
     if not os.path.exists(plantilla_path):
         raise FileNotFoundError(f"No se encontró la plantilla Word: {plantilla_path}")
@@ -424,11 +442,11 @@ def rellenar_word(plantilla_path: str, datos: dict[str, Any], output_path: str) 
     doc = Document(plantilla_path)
 
     doc.add_page_break()
-    doc.add_heading("ANÁLISIS DE INTERÉS EN APERTURA DE PROGRAMAS DE POSGRADO", level=1)
+    _add_section_heading(doc, "ANÁLISIS DE INTERÉS EN APERTURA DE PROGRAMAS DE POSGRADO")
     doc.add_paragraph("Encuesta a Egresados 2026")
     doc.add_paragraph(f"Fecha de generación: {datetime.now():%Y-%m-%d %H:%M}")
 
-    doc.add_heading("RESUMEN EJECUTIVO", level=1)
+    _add_section_heading(doc, "RESUMEN EJECUTIVO")
     resumen = datos["resumen"]
     p = doc.add_paragraph()
     p.add_run(f"Total de egresados encuestados: {resumen['total_encuestados']}\n")
@@ -437,7 +455,7 @@ def rellenar_word(plantilla_path: str, datos: dict[str, Any], output_path: str) 
     for i, item in enumerate(resumen["top_3"], start=1):
         p.add_run(f"  {i}. {item['programa']} - {item['frecuencia']} solicitudes ({item['porcentaje']:.2f}%)\n")
 
-    doc.add_heading("CARACTERIZACIÓN DE ENCUESTADOS", level=1)
+    _add_section_heading(doc, "CARACTERIZACIÓN DE ENCUESTADOS")
     car = datos["caracterizacion"]
     _add_table(
         doc,
@@ -467,7 +485,7 @@ def rellenar_word(plantilla_path: str, datos: dict[str, Any], output_path: str) 
         ],
     )
 
-    doc.add_heading("ANÁLISIS DE INTERÉS EN POSGRADOS", level=1)
+    _add_section_heading(doc, "ANÁLISIS DE INTERÉS EN POSGRADOS")
     pos_rows = [
         [
             str(row["Programa de Posgrado"]),
@@ -482,7 +500,7 @@ def rellenar_word(plantilla_path: str, datos: dict[str, Any], output_path: str) 
         doc.add_paragraph()
         doc.add_picture(datos["grafico_path"], width=Inches(6.5))
 
-    doc.add_heading("ANÁLISIS POR PROGRAMA DE ORIGEN", level=1)
+    _add_section_heading(doc, "ANÁLISIS POR PROGRAMA DE ORIGEN")
     prog_rows = [
         [
             str(row["Programa de Egreso"]),
@@ -493,10 +511,12 @@ def rellenar_word(plantilla_path: str, datos: dict[str, Any], output_path: str) 
     ]
     _add_table(doc, ["Programa de Egreso", "Posgrados más solicitados", "Frecuencia"], prog_rows)
 
-    doc.add_heading("RESPUESTAS ABIERTAS (CAMPO OTRO)", level=1)
+    _add_section_heading(doc, "RESPUESTAS ABIERTAS (CAMPO OTRO)")
     if datos["otros"]:
+        available_styles = {s.name for s in doc.styles}
+        bullet_style = "List Bullet" if "List Bullet" in available_styles else "Normal"
         for item in datos["otros"]:
-            doc.add_paragraph(f"- {item}", style="List Bullet")
+            doc.add_paragraph(f"- {item}", style=bullet_style)
     else:
         doc.add_paragraph("No se registraron respuestas en el campo 'Otro'.")
 
@@ -509,7 +529,7 @@ def rellenar_word(plantilla_path: str, datos: dict[str, Any], output_path: str) 
         )
     )
 
-    doc.add_heading("ANÁLISIS GEOGRÁFICO", level=1)
+    _add_section_heading(doc, "ANÁLISIS GEOGRÁFICO")
     geo_rows = [
         [
             str(row["Municipio"]),
@@ -520,14 +540,14 @@ def rellenar_word(plantilla_path: str, datos: dict[str, Any], output_path: str) 
     ]
     _add_table(doc, ["Municipio", "Total Encuestados", "Posgrados más solicitados"], geo_rows)
 
-    doc.add_heading("CONCLUSIONES Y RECOMENDACIONES", level=1)
+    _add_section_heading(doc, "CONCLUSIONES Y RECOMENDACIONES")
     doc.add_paragraph("Conclusiones:")
-    for c in datos["conclusiones"]["conclusiones"]:
-        doc.add_paragraph(c, style="List Number")
+    for i, c in enumerate(datos["conclusiones"]["conclusiones"], start=1):
+        _add_numbered_paragraph(doc, i, c)
 
     doc.add_paragraph("Recomendaciones:")
-    for r in datos["conclusiones"]["recomendaciones"]:
-        doc.add_paragraph(r, style="List Number")
+    for i, r in enumerate(datos["conclusiones"]["recomendaciones"], start=1):
+        _add_numbered_paragraph(doc, i, r)
 
     output_dir = os.path.dirname(output_path)
     if output_dir:
