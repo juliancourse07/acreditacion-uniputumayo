@@ -203,6 +203,8 @@ cython_debug/
 # Temporary file for partial code execution
 tempCodeRunnerFile.py
 temp/
+informes_generados/*.png
+informes_generados/*.jpg
 logs/
 
 # Ruff stuff:
