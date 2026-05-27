@@ -1,0 +1,58 @@
+name: Generar Informe de Posgrados
+
+on:
+  workflow_dispatch:  # Permite ejecución manual desde GitHub
+  push:
+    branches:
+      - main
+    paths:
+      - 'ENCUESTA SEGUIMIENTO EGRESADOS 30-04-2026.xlsx'
+      - 'scripts/generar_informe_posgrados.py'
+      - 'ejecutar_generador.py'
+
+jobs:
+  generar-informe:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Instalar dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r scripts/requirements.txt
+
+    - name: Ejecutar generador de informe
+      run: |
+        python ejecutar_generador.py
+
+    - name: Verificar informe generado
+      run: |
+        if [ -f "informes_generados/INFORME_POSGRADOS_2026.docx" ]; then
+          echo "✅ Informe generado exitosamente"
+          ls -lh informes_generados/INFORME_POSGRADOS_2026.docx
+        else
+          echo "❌ Error: Informe no generado"
+          exit 1
+        fi
+
+    - name: Subir informe como artefacto
+      uses: actions/upload-artifact@v4
+      with:
+        name: informe-posgrados-${{ github.run_number }}
+        path: informes_generados/INFORME_POSGRADOS_2026.docx
+        retention-days: 90
+
+    - name: Commit y push del informe generado
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "GitHub Actions Bot"
+        git add informes_generados/INFORME_POSGRADOS_2026.docx
+        git diff --staged --quiet || git commit -m "🤖 Informe generado automáticamente - Run #${{ github.run_number }}"
+        git push

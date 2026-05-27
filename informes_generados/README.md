@@ -1,52 +1,77 @@
-# Informes Generados
+# 📊 Informes Generados Automáticamente
 
-Esta carpeta contiene los informes automatizados generados por el sistema.
+Esta carpeta contiene los informes generados automáticamente por GitHub Actions.
 
-## Último Informe Generado
+## 📥 Cómo Descargar el Último Informe
 
-📄 **INFORME_POSGRADOS_2026.docx**
+### Método 1: Desde GitHub Actions (Recomendado)
 
-### Contenido del Informe:
+1. Ve a la pestaña **Actions** del repositorio
+2. Haz clic en el workflow **"Generar Informe de Posgrados"**
+3. Selecciona la ejecución más reciente (con ✅)
+4. En la sección **Artifacts**, descarga: `informe-posgrados-XXX`
+5. Descomprime el ZIP y abre el archivo Word
 
-1. **Resumen Ejecutivo**
-   - Total de egresados encuestados
-   - Programas de posgrado identificados
-   - Top 3 posgrados más solicitados
+### Método 2: Desde el repositorio
 
-2. **Caracterización de Encuestados**
-   - Distribución por género
-   - Municipios de residencia
-   - Sedes de egreso
-   - Ciclos académicos
+Si el informe fue commiteado automáticamente:
 
-3. **Análisis de Interés en Posgrados**
-   - Tabla de frecuencias completa
-   - Gráfico Top 15 posgrados
+1. Navega a esta carpeta en GitHub
+2. Haz clic en `INFORME_POSGRADOS_2026.docx`
+3. Haz clic en **Download**
 
-4. **Análisis por Programa de Origen**
-   - Cruce de datos: programa de egreso vs posgrado solicitado
+## 🚀 Cómo Generar un Nuevo Informe
 
-5. **Respuestas Abiertas**
-   - Sugerencias del campo "Otro"
+### Opción A: Ejecución Manual
 
-6. **Análisis Geográfico**
-   - Demanda por municipio
+1. Ve a **Actions** > **Generar Informe de Posgrados**
+2. Haz clic en **Run workflow**
+3. Selecciona la rama `main`
+4. Haz clic en **Run workflow**
+5. Espera 2-3 minutos
+6. Descarga el artefacto generado
 
-7. **Conclusiones y Recomendaciones**
-   - Basadas en análisis de datos
+### Opción B: Automático
 
-### Cómo Descargar:
+El informe se regenera automáticamente cuando:
+- Se modifica el archivo Excel de encuestas
+- Se actualiza el script de generación
+- Se hace push a la rama `main`
 
-1. Haz clic en el archivo `INFORME_POSGRADOS_2026.docx`
-2. Haz clic en el botón "Download" (descargar)
-3. Abre con Microsoft Word o LibreOffice
+## 📋 Contenido del Informe
 
-### Formato:
+El informe incluye:
 
-- ✅ Mantiene plantilla institucional de la Universidad del Putumayo
-- ✅ Logos oficiales preservados
-- ✅ Formato editable para ajustes manuales
+- ✅ **Portada** con logos institucionales
+- ✅ **Tabla de contenido**
+- ✅ **Introducción** (contexto, objetivos, metodología)
+- ✅ **Marco teórico** con citas académicas
+- ✅ **Caracterización de encuestados** (701 egresados)
+- ✅ **Análisis de demanda de posgrados** con gráficos
+- ✅ **Análisis cruzado** (programa origen vs posgrado solicitado)
+- ✅ **Análisis geográfico**
+- ✅ **Respuestas abiertas** (campo "Otro")
+- ✅ **Discusión** académica
+- ✅ **Conclusiones** basadas en datos
+- ✅ **Recomendaciones** por horizonte temporal
+- ✅ **Referencias bibliográficas** (formato APA)
+- ✅ **Anexos**
 
-### Fecha de Generación:
+## 🔄 Historial de Generación
 
-Generado automáticamente el: 2026-05-27
+Cada ejecución de GitHub Actions crea un artefacto numerado que se conserva por 90 días.
+
+Para ver el historial completo: **Actions** > **Generar Informe de Posgrados**
+
+## ⚙️ Configuración
+
+- **Script principal**: `scripts/generar_informe_posgrados.py`
+- **Ejecutor**: `ejecutar_generador.py`
+- **Configuración**: `scripts/config.yaml`
+- **Excel de entrada**: `ENCUESTA SEGUIMIENTO EGRESADOS 30-04-2026.xlsx`
+- **Plantilla Word**: `INTERES EN APERTURA DE PROGRAMAS ACADEMICOS UNIPUTUMAYO.docx`
+
+---
+
+**Última actualización**: Generado automáticamente por GitHub Actions
+
