@@ -10,6 +10,11 @@ on:
       - 'scripts/generar_informe_posgrados.py'
       - 'ejecutar_generador.py'
 
+# Permisos necesarios para que el workflow pueda hacer push
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   generar-informe:
     runs-on: ubuntu-latest
